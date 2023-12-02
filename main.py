@@ -10,24 +10,22 @@ class Example(QMainWindow):
         super().__init__()
         f = open("UI.ui")
         uic.loadUi(f, self)
-        self.setWindowTitle('Кружочки')
         f.close()
+        self.setWindowTitle('Кружочки')
+        self.pushButton.setText('Нарисовать кружочки')
         self.flag = False
-        self.pushButton.setText('Нарисовать')
         self.pushButton.clicked.connect(self.drawing)
         self.coords = []
 
     def drawing(self):
         self.size = random.randint(10, 50)
-        self.figura = 'circle'
-        self.color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
         self.flag = True
         self.update()
 
     def paintEvent(self, event):
         if self.flag:
             qp = QPainter(self)
-            qp.setBrush(QColor(*self.color))
+            qp.setBrush(QColor(255, 255, 0))
             x = random.randint(0, self.width() - self.size)
             y = random.randint(0, self.height() - self.size)
             qp.drawEllipse(x, y, self.size, self.size)
