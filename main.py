@@ -1,31 +1,34 @@
 import sys
 from PyQt5.QtGui import QPainter, QColor
-from PyQt5 import uic
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget
 import random
 
 
 class Example(QMainWindow):
     def __init__(self):
         super().__init__()
-        f = open("UI.ui")
-        uic.loadUi(f, self)
-        f.close()
+        self.initUI()
+
+    def initUI(self):
         self.setWindowTitle('Кружочки')
-        self.pushButton.setText('Нарисовать кружочки')
+        self.setGeometry(100, 100, 400, 300)
+        self.pushbutton = QPushButton('Нарисовать', self)
+        self.pushbutton.resize(100, 30)
+        self.pushbutton.move(150, 250)
+        self.pushbutton.clicked.connect(self.drawing)
         self.flag = False
-        self.pushButton.clicked.connect(self.drawing)
         self.coords = []
 
     def drawing(self):
         self.size = random.randint(10, 50)
+        self.color = QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
         self.flag = True
         self.update()
 
     def paintEvent(self, event):
         if self.flag:
             qp = QPainter(self)
-            qp.setBrush(QColor(255, 255, 0))
+            qp.setBrush(self.color)
             x = random.randint(0, self.width() - self.size)
             y = random.randint(0, self.height() - self.size)
             qp.drawEllipse(x, y, self.size, self.size)
